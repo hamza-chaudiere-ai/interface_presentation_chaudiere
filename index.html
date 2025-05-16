@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interface Chaudière TAQA Maroc</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- PAGE DE GARDE -->
+  <div id="cover">
+    <div class="cover-content">
+      <img src="img/taqa_cover.png" alt="TAQA Maroc Centrale" class="cover-img">
+      <button class="file-btn" onclick="enterSite()">➔ Entrer</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <img src="img/taqa.jpeg" alt="Logo TAQA" class="logo-header">
+    <h1 class="header-title">TAQA MAROC</h1>
+  </header>
+
+  <!-- Layout -->
+  <div style="display: flex;">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <img src="img/taqa.png" alt="Logo Sidebar">
+      </div>      
+      <ul>
+        <li onclick="showSection('dashboards')">Dashboards Températures</li>
+        <li onclick="showSection('composants')">Composants</li>
+        <li onclick="showSection('causes')">Causes de percement</li>
+        <li onclick="showSection('controles')">Contrôles réalisés</li>
+        <li onclick="showSection('amdec')">AMDEC automatique</li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+      <!-- Section Dashboards -->
+      <div id="dashboards" class="section active">
+        <h1>Dashboards Températures</h1>
+        <div class="dashboard-container">
+          <h2>Courbe des Températures par Échangeur</h2>
+          <img src="img/courbe_temperature.png" alt="Courbe Températures" class="dashboard-img">
+        </div>
+        <div class="dashboard-container">
+          <h2>Radar des Températures par Échangeur</h2>
+          <img src="img/radar_dashboard.png" alt="Radar Températures" class="dashboard-img">
+        </div>
+      </div>
+
+      <!-- Section Composants -->
+      <div id="composants" class="section">
+        <h1>Composants de la chaudière</h1>
+
+        <!-- 🔥 Ajout du schéma chaudière -->
+        <div style="text-align:center; margin-bottom: 30px;">
+          <img src="img/chaudiere_schema.png" alt="Schéma chaudière TAQA" style="max-width:90%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        </div>
+
+        <!-- Menu des composants -->
+        <div class="component-menu">
+          <button onclick="showComposant('eco_bt')">Économiseur BT</button>
+          <button onclick="showComposant('eco_ht')">Économiseur HT</button>
+          <button onclick="showComposant('rch_bt')">Réchauffeur BT</button>
+          <button onclick="showComposant('rch_ht')">Réchauffeur HT</button>
+          <button onclick="showComposant('sur_bt')">Surchauffeur BT</button>
+          <button onclick="showComposant('sur_ht')">Surchauffeur HT</button>
+        </div>
+
+        <div id="composant_affichage"></div>
+      </div>
+
+      <!-- Section Causes -->
+      <div id="causes" class="section">
+        <h1>Causes principales du percement</h1>
+
+        <div style="margin-bottom: 20px;">
+          <a href="pdf/les causes avec des images.pdf" download class="file-btn">
+            📄 Télécharger PDF Causes
+          </a>
+        </div>
+
+        <div class="cause-menu">
+          <button onclick="showCause('humidite')">Humidité</button>
+          <button onclick="showCause('cendres')">Cendres</button>
+          <button onclick="showCause('soufre')">Soufre</button>
+          <button onclick="showCause('hardgrove')">Hardgrove</button>
+          <button onclick="showCause('granulometrie')">Granulométrie</button>
+          <button onclick="showCause('caustic')">Caustic Attack</button>
+          <button onclick="showCause('oxygen')">Oxygen Pitting</button>
+          <button onclick="showCause('hydrogen')">Hydrogen Damage</button>
+          <button onclick="showCause('acid')">Acid Attack</button>
+          <button onclick="showCause('scc')">SCC</button>
+        </div>
+
+        <div id="cause_affichage"></div>
+      </div>
+
+      <!-- Section Contrôles -->
+      <div id="controles" class="section">
+        <h1>Contrôles réalisés</h1>
+
+        <div style="margin-bottom: 20px;">
+          <a href="pdf/les controle + image.pdf" download class="file-btn">
+            📄 Télécharger PDF Contrôles
+          </a>
+        </div>
+
+        <div class="controle-menu">
+          <button onclick="showControle('echangeur')">Échangeurs chaudière</button>
+          <button onclick="showControle('bp')">Échangeurs BP/HP</button>
+          <button onclick="showControle('vertiscan')">Verti-scan</button>
+          <button onclick="showControle('soudures')">Soudures</button>
+          <button onclick="showControle('structure')">Structure cristalline</button>
+          <button onclick="showControle('heps')">HEPS</button>
+        </div>
+
+        <div id="controle_affichage"></div>
+      </div>
+
+      <!-- Section AMDEC -->
+      <div id="amdec" class="section">
+        <h1>AMDEC automatique</h1>
+
+        <div class="amdec-buttons">
+          <label class="file-btn">
+            📁 Insérer fichier Excel
+            <input type="file" id="fileInput" />
+          </label>
+          <button onclick="analyser()" class="file-btn">⚙️ Analyser</button>
+        </div>
+
+        <table id="tableauAMDEC">
+          <thead>
+            <tr>
+              <th>Composant</th><th>Sous-Composant</th><th>Défaillance</th><th>Cause</th>
+              <th>Effet</th><th>F</th><th>G</th><th>D</th><th>C</th><th>Action corrective</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePopup()">✖️</span>
+      <div id="popup-text"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Interface de Chaudière TAQA Maroc
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+
+</body>
+</html>
